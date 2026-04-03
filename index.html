@@ -1263,7 +1263,7 @@
         doc.setFont('courier','normal');
         doc.setFontSize(6.5);
         doc.setTextColor(75,75,75);
-        const dateStr = new Date().toLocaleDateString('fr-FR', { day:'2-digit', month:'long', year:'numeric' });
+        const dateStr = new Date().toLocaleDateString('fr-FR', { day:'2-digit', month:'long', year:'numeric', timeZone:'Africa/Abidjan' });
         const urlStr  = window.location.href.replace(/\/$/, '') || 'ivoirien.app';
         doc.text(`Généré le ${dateStr}  ·  ${urlStr}`, W/2, y, { align:'center' });
 
