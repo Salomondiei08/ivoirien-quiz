@@ -448,6 +448,22 @@
       80% { transform: rotate(-18deg) scale(1.1); }
     }
     .dancing { animation: emojiDance 1.8s ease; }
+
+    /* ── Footer ── */
+    .made-by {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--border);
+      letter-spacing: 0.08em;
+      padding: 20px 0 24px;
+    }
+    .made-by a {
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .made-by a:hover { color: var(--white); border-color: var(--muted); }
   </style>
 </head>
 <body>
@@ -481,6 +497,11 @@
       </div>
 
     </div>
+
+    <footer class="made-by">
+      Fait avec <span style="color:var(--orange)">♥</span> par
+      <a href="https://github.com/Salomondiei08" target="_blank" rel="noopener">Salomon Diei</a>
+    </footer>
 
     <div id="flag-trigger"
          role="button"
@@ -556,6 +577,11 @@
         </p>
       </div>
 
+      <footer class="made-by" style="text-align:center;">
+        Fait avec <span style="color:var(--orange)">♥</span> par
+        <a href="https://github.com/Salomondiei08" target="_blank" rel="noopener">Salomon Diei</a>
+      </footer>
+
       <div id="res-actions" class="result-block result-actions">
         <button class="btn btn-primary" id="btn-certificate" onclick="generatePDF()">
           TÉLÉCHARGER MON CERTIFICAT
@@ -576,6 +602,9 @@
   <!-- ═══════════════════════════════════════════════════════════════════
        CDN SCRIPTS
   ══════════════════════════════════════════════════════════════════════ -->
+  <!-- Vercel Web Analytics — activer dans le dashboard Vercel > Analytics -->
+  <script defer src="/_vercel/insights/script.js"></script>
+
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
