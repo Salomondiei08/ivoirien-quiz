@@ -534,7 +534,7 @@
 
       <div id="res-header" class="result-block">
         <p class="result-scored">
-          You scored&nbsp;<span id="res-score-badge" class="score-badge">0</span>&nbsp;/ 12
+          Tu as obtenu&nbsp;<span id="res-score-badge" class="score-badge">0</span>&nbsp;/ 12
         </p>
         <p id="res-level-line" class="result-level-line"></p>
       </div>
@@ -878,7 +878,7 @@
     const desc    = document.getElementById('landing-desc');
     const cta     = document.getElementById('landing-cta');
 
-    const LABEL_TEXT = 'YOUR IVOIRITÉ';
+    const LABEL_TEXT = 'TON IVOIRITÉ';
     let i = 0;
 
     label.style.opacity = '1';
@@ -1037,7 +1037,7 @@
     // Populate
     document.getElementById('res-score-badge').textContent = state.score;
     document.getElementById('res-level-line').textContent  =
-      `That puts you in the ${level.title} range.`;
+      `Tu es dans la catégorie : ${level.title}.`;
     document.getElementById('res-desc-text').textContent   = level.desc;
 
     // Perfect score (EE3)
@@ -1152,7 +1152,7 @@
         doc.setFont('courier','normal');
         doc.setFontSize(7.5);
         doc.setTextColor(90,90,90);
-        doc.text("CERTIFICAT OFFICIEUX D'IVOIRITÉ", W/2, y, { align:'center', charSpace: 1.5 });
+        doc.text("CERTIFICAT OFFICIEUX D'IVOIRITE", W/2, y, { align:'center', charSpace: 1.5 });
         y += 13;
 
         // Title
@@ -1162,14 +1162,15 @@
         doc.text('ES-TU VRAIMENT', W/2, y, { align:'center', charSpace: 0.5 });
         y += 10;
         doc.setTextColor(247,127,0);
-        doc.text('IVOIRIEN·NE ?', W/2, y, { align:'center', charSpace: 0.5 });
+        doc.text('IVOIRIEN(NE) ?', W/2, y, { align:'center', charSpace: 0.5 });
         y += 14;
 
-        // Flag (text fallback — emoji rendering in jsPDF is unreliable)
-        doc.setFontSize(24);
-        doc.setTextColor(255,255,255);
-        doc.text('\uD83C\uDDEE\uD83C\uDDE8', W/2, y, { align:'center' });
-        y += 14;
+        // Decorative separator replacing emoji (jsPDF ne supporte pas les emoji)
+        doc.setDrawColor(247,127,0);
+        doc.setLineWidth(0.5);
+        const cx = W/2, lineW = 30;
+        doc.line(cx - lineW, y - 4, cx + lineW, y - 4);
+        y += 6;
 
         // Separator
         doc.setDrawColor(42,42,42);
@@ -1189,7 +1190,9 @@
         doc.setFont('times','italic');
         doc.setFontSize(13);
         doc.setTextColor(200,200,200);
-        doc.text(`\u00AB ${level.title} \u00BB`, W/2, y, { align:'center' });
+        // Remplacer · (U+00B7) non supporté par les polices jsPDF intégrées
+        const titlePdf = level.title.replace(/·/g, '(e)').replace(/\u00B7/g, '(e)');
+        doc.text(`<< ${titlePdf} >>`, W/2, y, { align:'center' });
         y += 18;
 
         // Dimension bars (condensed single row)
@@ -1215,7 +1218,9 @@
           doc.setFont('courier','normal');
           doc.setFontSize(5.5);
           doc.setTextColor(100,100,100);
-          doc.text(DIM_LABELS[dim], x + bw / 2, y + trackH + 5, { align:'center' });
+          // Remplacer É → E pour compatibilité Latin-1 jsPDF
+          const dimLabelPdf = DIM_LABELS[dim].replace(/É/g, 'E').replace(/È/g, 'E');
+          doc.text(dimLabelPdf, x + bw / 2, y + trackH + 5, { align:'center' });
         });
         y += 18;
 
