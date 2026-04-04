@@ -488,7 +488,7 @@
       </h1>
 
       <p id="landing-desc" class="landing-desc">
-        12 questions. 6 dimensions culturelles. Un verdict sans appel.
+        13 questions. 6 dimensions culturelles. Un verdict sans appel.
       </p>
 
       <div id="landing-cta" class="landing-cta">
@@ -520,7 +520,7 @@
     <div class="quiz-header">
       <div class="container">
         <div class="progress-meta">
-          <span id="q-counter" class="mono-label">QUESTION 1 / 12</span>
+          <span id="q-counter" class="mono-label">QUESTION 1 / 13</span>
           <span id="q-score" class="mono-label">SCORE : 0</span>
         </div>
         <div class="progress-track">
@@ -555,7 +555,7 @@
 
       <div id="res-header" class="result-block">
         <p class="result-scored">
-          Tu as obtenu&nbsp;<span id="res-score-badge" class="score-badge">0</span>&nbsp;/ 12
+          Tu as obtenu&nbsp;<span id="res-score-badge" class="score-badge">0</span>&nbsp;/ 13
         </p>
         <p id="res-level-line" class="result-level-line"></p>
       </div>
@@ -767,21 +767,35 @@
       },
     },
     {
-      id: 11, dimension: 'langue', emoji: '😤',
-      text: '"C\'est pas ma faute, c\'est ___" — complète avec la réponse la plus ivoirienne.',
+      id: 11, dimension: 'culture', emoji: '🗳️',
+      text: "Qui a remporté l'élection présidentielle ivoirienne de 2010 ?",
       options: [
-        { text: '...la conjoncture', correct: true },
-        { text: '...mon manager', correct: false },
-        { text: "...l'algorithme", correct: false },
-        { text: '...mon enfance difficile', correct: false },
+        { text: 'Alassane Ouattara', correct: false },
+        { text: 'Laurent Gbagbo', correct: false },
+        { text: 'Henri Konan Bédié', correct: false },
+        { text: 'Est-ce que je suis un enfant ?', correct: true },
       ],
       feedback: {
-        correct: "\"C'est la conjoncture !\" — la réponse universelle à tous les problèmes économiques, personnels et cosmiques.",
-        wrong:   "En Côte d'Ivoire, \"la conjoncture\" explique absolument tout. Prix qui montent ? Conjoncture.",
+        correct: "Voilà ! Tout Ivoirien sait exactement ce qui s'est passé en 2010. La question est rhétorique.",
+        wrong:   "La bonne réponse c'est \"Est-ce que je suis un enfant ?\" — tout Ivoirien sait ce qui s'est passé en 2010.",
       },
     },
     {
-      id: 12, dimension: 'fierte', emoji: '⚽',
+      id: 12, dimension: 'fierte', emoji: '👑',
+      text: "Qui a remporté Miss Monde 2025 ?",
+      options: [
+        { text: 'Miss Mexique', correct: false },
+        { text: 'Miss USA', correct: false },
+        { text: 'Miss Inde', correct: false },
+        { text: "Miss Côte d'Ivoire — Olivia Yacé", correct: true },
+      ],
+      feedback: {
+        correct: "La Côte d'Ivoire sur le toit du monde ! Olivia Yacé, Miss Monde 2025. La fierté nationale.",
+        wrong:   "C'est Olivia Yacé, Miss Côte d'Ivoire, qui a décroché la couronne Miss Monde 2025. Motif de fierté nationale.",
+      },
+    },
+    {
+      id: 13, dimension: 'fierte', emoji: '⚽',
       text: "Didier Drogba, au-delà du football, c'est...",
       options: [
         { text: 'Juste un bon joueur de Chelsea parmi d\'autres', correct: false },
@@ -798,10 +812,10 @@
 
   const levels = [
     { min: 0,  max: 2,  emoji: '🌍', title: 'Toubabou perdu',            desc: "Tu es clairement étranger, mais tu essaies et c'est mignon. Commence par apprendre ce qu'est l'attiéké avant ta prochaine visite." },
-    { min: 3,  max: 5,  emoji: '✈️',  title: 'Diaspora confuse',           desc: "Tu as des souvenirs ivoiriens mais Abidjan t'a un peu oublié. Tu arrives encore à l'heure aux événements — ça se voit." },
-    { min: 6,  max: 8,  emoji: '🥭', title: 'Potentiellement Ivoirien·ne', desc: "Tu connais les bases. Tu manges bien, tu danses presque juste. Mais t'as encore des progrès sur le temps ivoirien." },
-    { min: 9,  max: 10, emoji: '🔥', title: 'Vrai·e Ivoirien·ne',          desc: "GPS interne calibré sur Adjamé. Tu arrives deux heures en retard et tu penses être en avance. Félicitations." },
-    { min: 11, max: 12, emoji: '👑', title: 'Pur·e Abidjanais·e',          desc: "Tu parles Nouchi dans ton sommeil. Tu sais exactement quel gbaka prendre. La Côte d'Ivoire te réclame. Rentre au village." },
+    { min: 3,  max: 6,  emoji: '✈️',  title: 'Diaspora confuse',           desc: "Tu as des souvenirs ivoiriens mais Abidjan t'a un peu oublié. Tu arrives encore à l'heure aux événements — ça se voit." },
+    { min: 7,  max: 9,  emoji: '🥭', title: 'Potentiellement Ivoirien·ne', desc: "Tu connais les bases. Tu manges bien, tu danses presque juste. Mais t'as encore des progrès sur le temps ivoirien." },
+    { min: 10, max: 11, emoji: '🔥', title: 'Vrai·e Ivoirien·ne',          desc: "GPS interne calibré sur Adjamé. Tu arrives deux heures en retard et tu penses être en avance. Félicitations." },
+    { min: 12, max: 13, emoji: '👑', title: 'Pur·e Abidjanais·e',          desc: "Tu parles Nouchi dans ton sommeil. Tu sais exactement quel gbaka prendre. La Côte d'Ivoire te réclame. Rentre au village." },
   ];
 
   function getLevel(score) {
@@ -945,9 +959,9 @@
     const q = questions[index];
 
     // Header
-    document.getElementById('q-counter').textContent    = `QUESTION ${index + 1} / 12`;
+    document.getElementById('q-counter').textContent    = `QUESTION ${index + 1} / 13`;
     document.getElementById('q-score').textContent      = `SCORE : ${state.score}`;
-    document.getElementById('progress-fill').style.width = `${((index + 1) / 12) * 100}%`;
+    document.getElementById('progress-fill').style.width = `${((index + 1) / 13) * 100}%`;
 
     // Re-trigger card animation
     const card = document.getElementById('question-card');
@@ -983,8 +997,8 @@
     const wrap  = document.getElementById('btn-next-wrap');
     const btn   = document.getElementById('btn-next');
     wrap.style.display = 'none';
-    btn.textContent    = index === 11 ? 'VOIR MON RÉSULTAT →' : 'QUESTION SUIVANTE →';
-    btn.onclick        = index === 11 ? showResult : nextQuestion;
+    btn.textContent    = index === 12 ? 'VOIR MON RÉSULTAT →' : 'QUESTION SUIVANTE →';
+    btn.onclick        = index === 12 ? showResult : nextQuestion;
 
     // Impatient timer (EE5)
     clearTimeout(state.questionTimer);
@@ -1070,7 +1084,7 @@
     document.getElementById('res-desc-text').textContent   = level.desc;
 
     // Perfect score (EE3)
-    if (state.score === 12) {
+    if (state.score === 13) {
       document.getElementById('res-bonus').style.display = 'block';
       document.getElementById('res-score-badge').classList.add('glow');
       setTimeout(triggerConfetti, 900);
@@ -1211,7 +1225,7 @@
         doc.setFont('courier','bold');
         doc.setFontSize(34);
         doc.setTextColor(247,127,0);
-        doc.text(`${state.score} / 12`, W/2, y, { align:'center' });
+        doc.text(`${state.score} / 13`, W/2, y, { align:'center' });
         y += 13;
 
         // Level
@@ -1275,7 +1289,7 @@
           W/2, H - bH - 5, { align:'center' }
         );
 
-        doc.save(`certificat-ivoirien-${state.score}-sur-12.pdf`);
+        doc.save(`certificat-ivoirien-${state.score}-sur-13.pdf`);
       } catch (err) {
         console.error('PDF error:', err);
       } finally {
