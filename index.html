@@ -1189,54 +1189,49 @@
           doc.rect(x, H - bH, W/3, bH, 'F');
         });
 
-        let y = bH + 14;
+        let y = bH + 11;
 
         // Sub-label
         doc.setFont('courier','normal');
-        doc.setFontSize(7.5);
-        doc.setTextColor(90,90,90);
-        doc.text("CERTIFICAT OFFICIEUX D'IVOIRITE", W/2, y, { align:'center', charSpace: 1.5 });
-        y += 13;
+        doc.setFontSize(7);
+        doc.setTextColor(80,80,80);
+        doc.text("CERTIFICAT OFFICIEUX D'IVOIRITE", W/2, y, { align:'center', charSpace: 2 });
+        y += 9;
 
-        // Title
+        // Thin orange line under label
+        doc.setDrawColor(247,127,0);
+        doc.setLineWidth(0.3);
+        doc.line(W/2 - 40, y, W/2 + 40, y);
+        y += 9;
+
+        // Quiz title (smaller, secondary)
         doc.setFont('courier','bold');
-        doc.setFontSize(20);
-        doc.setTextColor(255,255,255);
-        doc.text('ES-TU VRAIMENT', W/2, y, { align:'center', charSpace: 0.5 });
-        y += 10;
-        doc.setTextColor(247,127,0);
-        doc.text('IVOIRIEN(NE) ?', W/2, y, { align:'center', charSpace: 0.5 });
+        doc.setFontSize(13);
+        doc.setTextColor(160,160,160);
+        doc.text('ES-TU VRAIMENT IVOIRIEN(NE) ?', W/2, y, { align:'center', charSpace: 0.5 });
         y += 14;
 
-        // Decorative separator replacing emoji (jsPDF ne supporte pas les emoji)
-        doc.setDrawColor(247,127,0);
-        doc.setLineWidth(0.5);
-        const cx = W/2, lineW = 30;
-        doc.line(cx - lineW, y - 4, cx + lineW, y - 4);
-        y += 6;
-
-        // Separator
-        doc.setDrawColor(42,42,42);
-        doc.setLineWidth(0.3);
-        doc.line(50, y, W - 50, y);
-        y += 12;
-
-        // Score
+        // Score — big and orange
         doc.setFont('courier','bold');
-        doc.setFontSize(34);
+        doc.setFontSize(42);
         doc.setTextColor(247,127,0);
         doc.text(`${state.score} / 13`, W/2, y, { align:'center' });
-        y += 13;
+        y += 8;
 
-        // Level
+        // Thin separator
+        doc.setDrawColor(42,42,42);
+        doc.setLineWidth(0.3);
+        doc.line(60, y, W - 60, y);
+        y += 12;
+
+        // Level title — THE STAR of the certificate, big and white
         const level = getLevel(state.score);
-        doc.setFont('times','italic');
-        doc.setFontSize(13);
-        doc.setTextColor(200,200,200);
-        // Remplacer · (U+00B7) non supporté par les polices jsPDF intégrées
-        const titlePdf = level.title.replace(/·/g, '(e)').replace(/\u00B7/g, '(e)');
-        doc.text(`<< ${titlePdf} >>`, W/2, y, { align:'center' });
-        y += 18;
+        const titlePdf = level.title.replace(/·/g, '(e)').replace(/\u00B7/g, '(e)').toUpperCase();
+        doc.setFont('courier','bold');
+        doc.setFontSize(28);
+        doc.setTextColor(255,255,255);
+        doc.text(titlePdf, W/2, y, { align:'center', charSpace: 1 });
+        y += 16;
 
         // Dimension bars (condensed single row)
         const dimScores   = getDimensionScores();
