@@ -4,6 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Es-tu vraiment Ivoirien·ne ?</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="https://fav.farm/🇨🇮" />
+
+  <!-- Open Graph / partage réseaux sociaux -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="https://ivoirien.reinvent-labs.com/" />
+  <meta property="og:title"       content="Es-tu vraiment Ivoirien·ne ? 🇨🇮" />
+  <meta property="og:description" content="12 questions. 6 dimensions culturelles. Garba, gbaka, Drogba, Coupé-Décalé... Un test sans appel pour savoir si tu es vraiment de la rue." />
+  <meta property="og:image"       content="https://placehold.co/1200x630/0d0d0d/f77f00?text=Es-tu+vraiment%0AIvoirien(ne)+%3F+%F0%9F%87%A8%F0%9F%87%AE&font=courier-prime" />
+
+  <!-- Twitter / X card -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="Es-tu vraiment Ivoirien·ne ? 🇨🇮" />
+  <meta name="twitter:description" content="Garba, gbaka, Drogba, temps ivoirien... 13 questions pour mesurer ton ivoirité. Résultat en 2 minutes." />
+  <meta name="twitter:image"       content="https://placehold.co/1200x630/0d0d0d/f77f00?text=Es-tu+vraiment%0AIvoirien(ne)+%3F+%F0%9F%87%A8%F0%9F%87%AE&font=courier-prime" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
@@ -1311,7 +1328,7 @@
   }
   function getShareText() {
     const level = getLevel(state.score);
-    const url   = window.location.href.replace(/\/$/, '');
+    const url   = 'https://ivoirien.reinvent-labs.com';
     return `J'ai fait le test "Es-tu vraiment Ivoirien(ne) ?" \uD83C\uDDEE\uD83C\uDDE8\nMon résultat : ${level.title} — ${state.score}/13\n${level.desc.split('.')[0]}.\nFais le test : ${url}`;
   }
   function copyShareText() {
@@ -1326,7 +1343,7 @@
   }
   function shareTwitter() {
     const level = getLevel(state.score);
-    const url   = window.location.href.replace(/\/$/, '');
+    const url   = 'https://ivoirien.reinvent-labs.com';
     const text  = `J'ai fait le test "Es-tu vraiment Ivoirien(ne) ?" \uD83C\uDDEE\uD83C\uDDE8 — résultat : ${level.title} (${state.score}/13)`;
     window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
   }
@@ -1453,7 +1470,7 @@
         doc.setFontSize(6.5);
         doc.setTextColor(75,75,75);
         const dateStr = new Date().toLocaleDateString('fr-FR', { day:'2-digit', month:'long', year:'numeric', timeZone:'Africa/Abidjan' });
-        const urlStr  = window.location.href.replace(/\/$/, '') || 'ivoirien.app';
+        const urlStr  = 'ivoirien.reinvent-labs.com';
         doc.text(`Généré le ${dateStr}  ·  ${urlStr}`, W/2, y, { align:'center' });
 
         // Disclaimer
