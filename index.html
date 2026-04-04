@@ -449,6 +449,92 @@
     }
     .dancing { animation: emojiDance 1.8s ease; }
 
+    /* ── Name modal ── */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.75);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      width: 100%;
+      max-width: 360px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .modal-title {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: var(--orange);
+      text-transform: uppercase;
+    }
+    .modal-desc {
+      font-family: var(--serif);
+      font-size: 15px;
+      color: var(--muted);
+    }
+    .name-input {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--white);
+      outline: none;
+      min-height: 44px;
+      transition: border-color 0.15s;
+    }
+    .name-input:focus { border-color: var(--orange); }
+    .name-input::placeholder { color: var(--border); }
+    .modal-actions { display: flex; flex-direction: column; gap: 8px; }
+
+    /* ── Share panel ── */
+    .share-panel {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      text-align: center;
+      animation: fadeIn 0.4s ease;
+    }
+    .share-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 12px;
+    }
+    .share-buttons { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+    .share-btn {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 10px 16px;
+      min-height: 44px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--bg);
+      color: var(--white);
+      cursor: pointer;
+      transition: opacity 0.15s, border-color 0.15s;
+      letter-spacing: 0.05em;
+    }
+    .share-btn:hover { opacity: 0.8; }
+    .share-wa { border-color: #25d366; color: #25d366; }
+    .share-x  { border-color: #888; }
+
     /* ── Footer ── */
     .made-by {
       font-family: var(--mono);
@@ -583,9 +669,17 @@
       </footer>
 
       <div id="res-actions" class="result-block result-actions">
-        <button class="btn btn-primary" id="btn-certificate" onclick="generatePDF()">
+        <button class="btn btn-primary" id="btn-certificate" onclick="openNameModal()">
           TÉLÉCHARGER MON CERTIFICAT
         </button>
+        <div id="share-panel" style="display:none;" class="share-panel">
+          <p class="share-label">Partage ton résultat 👇</p>
+          <div class="share-buttons">
+            <button class="share-btn" onclick="copyShareText()" id="btn-copy">📋 Copier</button>
+            <button class="share-btn share-wa" onclick="shareWhatsApp()">💬 WhatsApp</button>
+            <button class="share-btn share-x" onclick="shareTwitter()">𝕏 Twitter</button>
+          </div>
+        </div>
         <button class="btn btn-secondary" onclick="restartQuiz()">
           Recommencer
         </button>
@@ -593,6 +687,21 @@
 
     </div>
   </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       NAME MODAL
+  ══════════════════════════════════════════════════════════════════════ -->
+  <div id="name-modal" class="modal-overlay" style="display:none;" onclick="closeModalOutside(event)">
+    <div class="modal-box">
+      <p class="modal-title">TON CERTIFICAT</p>
+      <p class="modal-desc">Tu veux ajouter ton nom sur le certificat ?</p>
+      <input type="text" id="name-input" class="name-input" placeholder="Ton prénom ou pseudo..." maxlength="40" />
+      <div class="modal-actions">
+        <button class="btn btn-primary" onclick="confirmName()">GÉNÉRER →</button>
+        <button class="btn btn-secondary" onclick="skipName()">Sans nom</button>
+      </div>
+    </div>
+  </div>
 
   <!-- ═══════════════════════════════════════════════════════════════════
        TOAST
@@ -645,13 +754,13 @@
       text: 'Le dimanche matin idéal à Abidjan commence par...',
       options: [
         { text: 'Un café noir et des croissants', correct: false },
-        { text: "Attiéké poisson braisé du maquis d'à côté", correct: true },
+        { text: "Un garba bien chargé du maquis d'à côté", correct: true },
         { text: 'Du müsli avec du lait écrémé', correct: false },
         { text: 'Un smoothie detox', correct: false },
       ],
       feedback: {
-        correct: "Champion ! Le dimanche appartient à l'attiéké-poisson. C'est sacré.",
-        wrong:   "Les croissants c'est pour les touristes. L'attiéké-poisson du maquis, c'est le rituel du dimanche ivoirien.",
+        correct: "Champion ! Le garba du dimanche matin c'est sacré. Attiéké + thon, sauce piment — rien de mieux.",
+        wrong:   "Les croissants c'est pour les touristes. Le garba du maquis le dimanche matin, c'est le vrai rituel ivoirien.",
       },
     },
     {
@@ -1164,9 +1273,68 @@
   }
 
   /* ══════════════════════════════════════════════════════════════════════
+     NAME MODAL
+  ══════════════════════════════════════════════════════════════════════ */
+  function openNameModal() {
+    document.getElementById('name-input').value = '';
+    document.getElementById('name-modal').style.display = 'flex';
+    setTimeout(() => document.getElementById('name-input').focus(), 100);
+  }
+  function closeNameModal() {
+    document.getElementById('name-modal').style.display = 'none';
+  }
+  function closeModalOutside(e) {
+    if (e.target === document.getElementById('name-modal')) closeNameModal();
+  }
+  function confirmName() {
+    const name = document.getElementById('name-input').value.trim();
+    closeNameModal();
+    generatePDF(name || null);
+  }
+  function skipName() {
+    closeNameModal();
+    generatePDF(null);
+  }
+
+  // Allow Enter key in input
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('name-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter') confirmName();
+    });
+  });
+
+  /* ══════════════════════════════════════════════════════════════════════
+     SHARE
+  ══════════════════════════════════════════════════════════════════════ */
+  function showSharePanel() {
+    document.getElementById('share-panel').style.display = 'block';
+  }
+  function getShareText() {
+    const level = getLevel(state.score);
+    const url   = window.location.href.replace(/\/$/, '');
+    return `J'ai fait le test "Es-tu vraiment Ivoirien(ne) ?" \uD83C\uDDEE\uD83C\uDDE8\nMon résultat : ${level.title} — ${state.score}/13\n${level.desc.split('.')[0]}.\nFais le test : ${url}`;
+  }
+  function copyShareText() {
+    navigator.clipboard.writeText(getShareText()).then(() => {
+      const btn = document.getElementById('btn-copy');
+      btn.textContent = '✓ Copié !';
+      setTimeout(() => { btn.textContent = '📋 Copier'; }, 2000);
+    });
+  }
+  function shareWhatsApp() {
+    window.open('https://wa.me/?text=' + encodeURIComponent(getShareText()), '_blank');
+  }
+  function shareTwitter() {
+    const level = getLevel(state.score);
+    const url   = window.location.href.replace(/\/$/, '');
+    const text  = `J'ai fait le test "Es-tu vraiment Ivoirien(ne) ?" \uD83C\uDDEE\uD83C\uDDE8 — résultat : ${level.title} (${state.score}/13)`;
+    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════
      PDF CERTIFICATE
   ══════════════════════════════════════════════════════════════════════ */
-  function generatePDF() {
+  function generatePDF(userName) {
     const btn = document.getElementById('btn-certificate');
     btn.textContent = 'GÉNÉRATION EN COURS...';
     btn.disabled    = true;
@@ -1231,7 +1399,19 @@
         doc.setFontSize(28);
         doc.setTextColor(255,255,255);
         doc.text(titlePdf, W/2, y, { align:'center', charSpace: 1 });
-        y += 16;
+        y += 14;
+
+        // Name — if provided
+        if (userName) {
+          doc.setFont('times','italic');
+          doc.setFontSize(11);
+          doc.setTextColor(160,160,160);
+          const namePdf = userName.replace(/[^\x00-\xFF]/g, '');
+          doc.text(`Décerné à : ${namePdf}`, W/2, y, { align:'center' });
+          y += 10;
+        } else {
+          y += 4;
+        }
 
         // Dimension bars (condensed single row)
         const dimScores   = getDimensionScores();
@@ -1285,6 +1465,8 @@
         );
 
         doc.save(`certificat-ivoirien-${state.score}-sur-13.pdf`);
+        showSharePanel();
+        showToast('Certificat téléchargé ! Partage ton résultat 🇨🇮');
       } catch (err) {
         console.error('PDF error:', err);
       } finally {
